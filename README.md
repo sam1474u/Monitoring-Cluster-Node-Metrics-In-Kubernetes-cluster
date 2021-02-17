@@ -13,6 +13,7 @@
 
 
 
+
 <section><div name="STEP1:CreateYourFreeTrialAccount" data-unique="STEP1:CreateYourFreeTrialAccount"></div><h2 id="step1createyourfreetrialaccount" class="minus" tabindex="0"><strong>STEP 1</strong>: Create Your Free Trial Account</h2><p style="display: block;">If you already have a cloud account, skip to <strong>STEP 2</strong>.</p><ol style="display: block;">
 <li><p>Open up a web browser to access the Oracle Cloud account registration form at <a href="https://myservices.us.oraclecloud.com/mycloud/signup?language=en" target="_blank">oracle.com/cloud/free</a>.</p></li>
 <li><p>You will be presented with a registration page.
@@ -180,17 +181,12 @@ etcd-0               Healthy   {"health":"true"}
 
 <section><div name="STEP1:ObtainMuShopsourcecode" data-unique="STEP1:ObtainMuShopsourcecode"></div><button id="btn_toggle" class="hol-ToggleRegions minus">Collapse All Steps</button><h2 id="step1obtainmushopsourcecode" class="minus" tabindex="0"><strong>STEP 1</strong>: Obtain MuShop source code</h2><ol style="">
 <li><p>Open up Cloud Shell and clone the github repo.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">git clone https://github.com/oracle-quickstart/oci-cloudnative.git mushop</span>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">git clone https://github.com/oracle-quickstart/oci-cloudnative.git mushop
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108178632-ad00ad80-712a-11eb-8cd8-3bea4976003e.png" ></figure></p>
+
+</span>
 </code></pre>
-<p>Sample response:</p>
-<pre><code class="shell language-shell">Cloning into 'mushop'...
-remote: Enumerating objects: 542, done.
-remote: Counting objects: 100% (542/542), done.
-remote: Compressing objects: 100% (313/313), done.
-remote: Total 15949 (delta 288), reused 424 (delta 200), pack-reused 15407
-Receiving objects: 100% (15949/15949), 17.59 MiB | 33.71 MiB/s, done.
-Resolving deltas: 100% (9557/9557), done.
-</code></pre></li>
+</li>
 <li><p>Change to the mushop directory</p>
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">cd mushop</span>
 </code></pre>
@@ -198,7 +194,11 @@ Resolving deltas: 100% (9557/9557), done.
 <p><em>./deploy:</em> Collection of application deployment resources<br>
 <em>./src:</em> MuShop individual service code, Dockerfile, etc</p></li>
 <li><p>Check <strong>kubectl</strong> context</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config current-context</span>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config current-context
+
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108179215-5e074800-712b-11eb-9bd9-c37636f6ea64.png" ></figure></p>
+
+</span>
 </code></pre>
 <p>Sample response:</p>
 <pre><code class="shell language-shell">cluster-c4daylfgvrg
@@ -211,6 +211,8 @@ Resolving deltas: 100% (9557/9557), done.
 </code></pre></li>
 <li><p>Set the default <strong>kubectl</strong> namespace to skip adding <strong>--namespace <em>mushop</em></strong> to every command.  You can replace <em>mushop</em> with <em>your name</em>.</p>
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config set-context --current --namespace=mushop</span>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108179804-09180180-712c-11eb-8d3f-9b35295ae758.png" ></figure></p>
+
 </code></pre></li>
 </ol></section>
 
