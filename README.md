@@ -135,7 +135,7 @@ The screen will appear as follows after you select the button:
 <p><figure><img src="https://oracle.github.io/learning-library/oci-library/oci-hol/cloud-native/setup-cloud-env/images/OKE-access-cluster-cli.png" alt="Access Cluster"></figure></p>
 <p><figure><img src="https://oracle.github.io/learning-library/oci-library/oci-hol/cloud-native/setup-cloud-env/images/OKE-cloud-shell-create-kubeconfig.png" alt="Access Cluster"></figure></p></li>
 <li><p>Check if you have access to your cluster with <code>kubectl</code>.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get cs</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get cs</span>
 </code></pre>
 <pre><code class="shell language-shell">NAME                 STATUS    MESSAGE             ERROR
 scheduler            Healthy   ok
@@ -143,10 +143,10 @@ controller-manager   Healthy   ok
 etcd-0               Healthy   {"health":"true"}
 </code></pre></li>
 <li><p>Check the version of your kubectl client and kubernetes server with <code>kubectl</code>.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl version</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl version</span>
 </code></pre></li>
 <li><p>Get the nodes and check if they are <em>Ready</em> with <code>kubectl</code>.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get nodes</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get nodes</span>
 </code></pre>
 <pre><code class="shell language-shell">NAME        STATUS   ROLES   AGE   VERSION
 10.0.10.2   Ready    node    1m    v1.17.9
@@ -181,20 +181,20 @@ etcd-0               Healthy   {"health":"true"}
 
 <section><div name="STEP1:ObtainMuShopsourcecode" data-unique="STEP1:ObtainMuShopsourcecode"></div><button id="btn_toggle" class="hol-ToggleRegions minus">Collapse All Steps</button><h2 id="step1obtainmushopsourcecode" class="minus" tabindex="0"><strong>STEP 1</strong>: Obtain MuShop source code</h2><ol style="">
 <li><p>Open up Cloud Shell and clone the github repo.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">git clone https://github.com/oracle-quickstart/oci-cloudnative.git mushop
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">git clone https://github.com/oracle-quickstart/oci-cloudnative.git mushop
 <p><figure><img src="https://user-images.githubusercontent.com/42166489/108178632-ad00ad80-712a-11eb-8cd8-3bea4976003e.png" ></figure></p>
 
 </span>
 </code></pre>
 </li>
 <li><p>Change to the mushop directory</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">cd mushop</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">cd mushop</span>
 </code></pre>
 <p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-code.png" alt="MuShop Tree"></figure></p>
 <p><em>./deploy:</em> Collection of application deployment resources<br>
 <em>./src:</em> MuShop individual service code, Dockerfile, etc</p></li>
 <li><p>Check <strong>kubectl</strong> context</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config current-context
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl config current-context
 
 <p><figure><img src="https://user-images.githubusercontent.com/42166489/108179215-5e074800-712b-11eb-9bd9-c37636f6ea64.png" ></figure></p>
 
@@ -204,13 +204,13 @@ etcd-0               Healthy   {"health":"true"}
 <pre><code class="shell language-shell">cluster-c4daylfgvrg
 </code></pre></li>
 <li><p>Create a namespace for MuShop App (microservices will reside on this namespace)</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop</span>
 </code></pre>
 <p>Sample response:</p>
 <pre><code class="shell language-shell">namespace/mushop created
 </code></pre></li>
 <li><p>Set the default <strong>kubectl</strong> namespace to skip adding <strong>--namespace <em>mushop</em></strong> to every command.  You can replace <em>mushop</em> with <em>your name</em>.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config set-context --current --namespace=mushop</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl config set-context --current --namespace=mushop</span>
 <p><figure><img src="https://user-images.githubusercontent.com/42166489/108179804-09180180-712c-11eb-8d3f-9b35295ae758.png" ></figure></p>
 
 </code></pre></li>
@@ -258,13 +258,13 @@ etcd-0               Healthy   {"health":"true"}
 </tbody>
 </table><ol style="">
 <li><p>Create a namespace for MuShop utilities</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop-utilities</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop-utilities</span>
 </code></pre>
 <p>Sample response:</p>
 <pre><code class="shell language-shell">namespace/mushop-utilities created
 </code></pre></li>
 <li><p>Install cluster dependencies using helm:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm dependency update deploy/complete/helm-chart/setup</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">helm dependency update deploy/complete/helm-chart/setup</span>
 </code></pre>
 <p>Sample response:</p>
 <pre><code class="shell language-shell">Hang tight while we grab the latest from your chart repositories...
@@ -281,7 +281,7 @@ Downloading jenkins from repo https://kubernetes-charts.storage.googleapis.com
 Deleting outdated charts
 </code></pre></li>
 <li><p>Install setup helm chart:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm install mushop-utils deploy/complete/helm-chart/setup --namespace mushop-utilities</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">helm install mushop-utils deploy/complete/helm-chart/setup --namespace mushop-utilities</span>
 </code></pre></li>
 </ol><p style=""><em>Note:</em> When you install the mushop-utils chart release, Kubernetes will create an OCI LoadBalancer to the be used by the ingress kubernetes.</p></section>
 
@@ -290,14 +290,14 @@ Deleting outdated charts
 
 <section><div name="STEP3:GetIngressIPAddress" data-unique="STEP3:GetIngressIPAddress"></div><h2 id="step3getingressipaddress" class="minus" tabindex="0"><strong>STEP 3</strong>: Get Ingress IP Address</h2><p style="">Part of the cluster setup includes the installation of an nginx ingress controller. This resource exposes an OCI load balancer, with a public ip address mapped to the OKE cluster.</p><p style="">By default, the mushop helm chart creates an Ingress resource, routing ALL traffic on that ip address to the svc/edge component.</p><ol style="">
 <li><p>Locate the EXTERNAL-IP assigned to the ingress controller:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
 </code></pre>
 <p>Sample response:</p>
 <pre><code class="shell language-shell">NAME                                    TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                      AGE
 mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.xxx.xxx   80:30195/TCP,443:31059/TCP   1m
 </code></pre></li>
 <li><p>Explore the cluster services deployments:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get deployments --namespace mushop-utilities</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get deployments --namespace mushop-utilities</span>
 </code></pre></li>
 </ol></section>
 
@@ -305,15 +305,15 @@ mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.x
 
 <section><div name="STEP4:DeploytheeCommerceAppwithHelm" data-unique="STEP4:DeploytheeCommerceAppwithHelm"></div><h2 id="step4deploytheecommerceappwithhelm" class="minus" tabindex="0"><strong>STEP 4</strong>: Deploy the eCommerce App with Helm</h2><p style="">Remembering that helm provides a way of packaging and deploying configurable charts, next we will deploy the application in "mock mode" where cloud services are mocked, yet the application is fully functional</p><ol style="">
 <li><p>Deploy the application in "mock mode" where cloud services are mocked, yet the application is fully functional</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm install mushop deploy/complete/helm-chart/mushop --set global.mock.service="all"</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">helm install mushop deploy/complete/helm-chart/mushop --set global.mock.service="all"</span>
 </code></pre></li>
 <li><p>Please be patient. It may take a few moments to download all the application images.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get pods --watch</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get pods --watch</span>
 </code></pre>
 <p><em>Note:</em> To leave the <em>watch</em> press <code>CTRL-C</code> anytime. If do not want to keep watching and just see the current list of PODS, just use <code>kubectl get pods</code></p></li>
 <li><p>After inspecting the resources created with helm install, launch the application in your browser using the <strong>EXTERNAL-IP</strong> from the nginx ingress.</p></li>
 <li><p>Find the EXTERNAL-IP assigned to the ingress controller.  Open the IP address in your browser.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
 </code></pre></li>
 <li><p>Open to the MuShop Storefront by using your browser connecting to http://&lt; EXTERNAL-IP &gt;</p>
 
@@ -336,27 +336,27 @@ mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.x
 <li><strong>kubectl exec</strong> - execute a command on a container in a pod</li>
 </ul><p style="">You can use these commands to see when applications were deployed, what their current statuses are, where they are running and what their configurations are.</p><ol style="">
 <li><p>Check the microservices deployments for MuShop</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get deployments</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get deployments</span>
 </code></pre>
 <p><em>Note:</em> You should use <code>kubectl get deployments --namespace mushop</code> if you didn't set <em>mushop</em> as default namespace</p></li>
 <li><p>Check the pods deployed</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get pods</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get pods</span>
 </code></pre></li>
 <li><p>Get the last created pod to inspect</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'|awk '{print $1}'|tail -n 1) &amp;&amp; \
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'|awk '{print $1}'|tail -n 1) &amp;&amp; \
 echo Using Pod: $POD_NAME</span>
 </code></pre></li>
 <li><p>View what containers are inside that Pod and what images are used to build those containers</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl describe pod $POD_NAME</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl describe pod $POD_NAME</span>
 </code></pre></li>
 <li><p>Anything that the application would normally send to <code>STDOUT</code> becomes logs for the container within the Pod. We can retrieve these logs using the <code>kubectl logs</code> command:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl logs $POD_NAME</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl logs $POD_NAME</span>
 </code></pre></li>
 <li><p>Execute commands directly on the container once the Pod is up and running.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl exec $POD_NAME env</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl exec $POD_NAME env</span>
 </code></pre></li>
 <li><p>List the content of the Pod’s container work folder:</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl exec -ti $POD_NAME ls</span>
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl exec -ti $POD_NAME ls</span>
 </code></pre>
 <p><em>Note:</em> You can also start a <code>bash</code> session on the Pod's container, just change the <code>ls</code> to <code>bash</code>. Remember that you need to type <code>exit</code> to exit the bash session.</p></li>
 </ol></section>
@@ -369,11 +369,11 @@ echo Using Pod: $POD_NAME</span>
 
 <section><div name="STEP6:UndertheHood" data-unique="STEP6:UndertheHood"></div><h2 id="step6underthehood" class="minus" tabindex="0"><strong>STEP 6</strong>: Under the Hood</h2><ol style="">
 <li><p>To get a better look at all the installed Kubernetes manifests by using the template command.</p>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">
 mkdir ./out
 </span><span class="copy-code">
 </span></code></pre>
-<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">
+<pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">
 helm template mushop deploy/complete/helm-chart/mushop --set global.mock.service="all" --output-dir ./out
 </span><span class="copy-code">
 </span></code></pre></li>
