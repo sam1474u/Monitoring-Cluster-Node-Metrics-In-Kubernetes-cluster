@@ -316,7 +316,12 @@ mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.x
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
 </code></pre></li>
 <li><p>Open to the MuShop Storefront by using your browser connecting to http://&lt; EXTERNAL-IP &gt;</p>
-<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-storefront.png" alt="MuShop Storefront"></figure></p></li>
+
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-storefront.png" alt="MuShop Storefront"></figure></p>
+
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108181095-8132f700-712d-11eb-9246-6a29f56ccd69.png" alt="MuShop Storefront"></figure></p>
+
+</li>
 </ol></section>
 
 
