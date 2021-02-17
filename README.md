@@ -24,7 +24,7 @@
 <li>Enter your <strong>Name</strong> and <strong>Email</strong>.</li></ul></li>
 <li><p>Once you have entered a valid email address, select the <strong>Verify my email</strong> button.
 The screen will appear as follows after you select the button:
-   <figure><img src="https://oracle.github.io/learning-library/common/labs/cloud-login/images/verify-email.png alt=""></figure></p></li>
+   <figure><img src="https://oracle.github.io/learning-library/common/labs/cloud-login/images/verify-email.png" alt=""></figure></p></li>
 <li><p>Go to your email. You will see an account validation email from Oracle in your inbox. The email will be similar to the following:
    <figure><img src="https://oracle.github.io/learning-library/common/labs/cloud-login/images/verification-mail.png" alt=""></figure></p></li>
 <li><p>Select the link (if possible) or copy and paste the link into your browser.</p></li>
