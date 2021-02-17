@@ -61,7 +61,7 @@ The screen will appear as follows after you select the button:
 <p><figure><img src="https://oracle.github.io/learning-library/common/labs/cloud-login/images/oci-signin.png" alt=""></figure></p></li>
 <li><p>You are now signed in to Oracle Cloud!</p>
 <p><figure><img src="https://oracle.github.io/learning-library/common/labs/cloud-login/images/oci-console-home-page.png" alt=""></figure></p></li>
-</ol><p style="">You may now <a href="#next">proceed to the next lab</a>.</p></section>
+</ol>
 
 <main class="hol-Content" id="module-content"><article><h1 id="setupcloudenvironment">Setup Cloud Environment</h1>
 <section><div name="Introduction" data-unique="Introduction"></div><h2 id="introduction">Introduction</h2><p>You will take on the persona of an Operations Engineer. You will initiate the Oracle cloud environment that will be used to create and deploy your microservices applications. This environment will be contained within a cloud Compartment, and communication within the Compartment will be via a Virtual Cloud Network (VCN). The Compartment and VCN will isolate and secure the overall environment. You will deploy the Oracle Cloud Infrastructure Container Engine for Kubernetes(OKE).</p><p>Estimated time: 20 minutes</p><h3 id="objectives">Objectives</h3><ul>
