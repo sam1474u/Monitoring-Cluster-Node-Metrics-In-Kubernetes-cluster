@@ -444,12 +444,13 @@ mushop-utils            mushop-utilities        1               2020-01-31 20:32
 </code></pre></li>
 <li><p>Open to the Grafana dashboard using your browser connecting to http://&lt; EXTERNAL-IP &gt;/grafana</p></li>
 <li><p>Connect to the dashboard with <strong>admin</strong>/<strong>&lt; password &gt;</strong></p>
-<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-login.png" alt="Grafana Login"></figure></p></li>
+<img src="https://user-images.githubusercontent.com/42166489/108210695-e4cf1b80-7151-11eb-8cf9-7621c48257d6.png">
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108210718-ebf62980-7151-11eb-8f18-aee5c2f4823c.png" alt="Grafana Login"></figure></p></li>
 <li><p>On the Grafana main screen, click on Home to select a Dashboard</p>
 <p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-select-dashboards.png" alt="Grafana Select Dashboards"></figure></p></li>
 <li><p>Select the <code>Kubernetes Cluster (Prometheus)</code> Dashboard</p>
 <p><em>Note:</em> MuShop pre-loads dashboards as part of the mushop-utils chart</p>
-<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-loaded-dashboards.png" alt="Grafana Select Dashboards"></figure></p></li>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108210737-f0224700-7151-11eb-8dd9-67bf303c8fc4.png" alt="Grafana Select Dashboards"></figure></p></li>
 <li><p>Visualize and try the options</p>
 <p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-cluster-dashboard.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
 <li><p>You can try other dashboards by clicking on the Dashboard name and selecting the desired dashboard</p>
