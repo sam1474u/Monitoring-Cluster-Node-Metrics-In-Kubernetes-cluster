@@ -155,13 +155,239 @@ etcd-0               Healthy   {"health":"true"}
 </ol><p style="">You may now <a href="#next">proceed to the next lab</a>.</p></section>
 
 
+<main class="hol-Content" id="module-content"><article><h1 id="deploythemushopapplication">Deploy the MuShop Application</h1>
+<section><div name="Introduction" data-unique="Introduction"></div><h2 id="introduction">Introduction</h2><p>There are four options for deploying MuShop. They range from manual (docker), automated (Helm) to fully automated (Terraform).  </p><p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-deploy-options-helm.png" alt="MuShop Deployment"></figure></p><p>Designing in microservices offers excellent separation concerns and provides developer independence.  While these benefits are clear, they can often introduce some complexity for the development environment.  Services support configurations that offer flexibility, when necessary, and establish parity as much as possible.  It is essential to use the same tools for development to production.</p><p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-diagram.png" alt="MuShop Deployment"></figure><br>
+<em>Note: This diagram contains services not covered by these labs.</em></p><p>Estimated Lab Time: 30 minutes</p><h3 id="objectives">Objectives</h3><p>In this lab, you will:</p><ul>
+<li>Gather Cloud Information</li>
+<li>Download Source Code</li>
+<li>Setup Kubernetes Cluster on OKE</li>
+<li>Deploy with Helm</li>
+<li>Expose your app publicly</li>
+<li>Explore under the Hood</li>
+</ul><h3 id="prerequisites">Prerequisites</h3><ul>
+<li>An Oracle Free Tier(Trial), Paid or LiveLabs Cloud Account</li>
+<li>Completed the <strong>Setup Cloud Environment</strong> lab</li>
+</ul></section>
+
+
+
+
+
+
+
+
+
+
+<section><div name="STEP1:ObtainMuShopsourcecode" data-unique="STEP1:ObtainMuShopsourcecode"></div><button id="btn_toggle" class="hol-ToggleRegions minus">Collapse All Steps</button><h2 id="step1obtainmushopsourcecode" class="minus" tabindex="0"><strong>STEP 1</strong>: Obtain MuShop source code</h2><ol style="">
+<li><p>Open up Cloud Shell and clone the github repo.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">git clone https://github.com/oracle-quickstart/oci-cloudnative.git mushop</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">Cloning into 'mushop'...
+remote: Enumerating objects: 542, done.
+remote: Counting objects: 100% (542/542), done.
+remote: Compressing objects: 100% (313/313), done.
+remote: Total 15949 (delta 288), reused 424 (delta 200), pack-reused 15407
+Receiving objects: 100% (15949/15949), 17.59 MiB | 33.71 MiB/s, done.
+Resolving deltas: 100% (9557/9557), done.
+</code></pre></li>
+<li><p>Change to the mushop directory</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">cd mushop</span>
+</code></pre>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-code.png" alt="MuShop Tree"></figure></p>
+<p><em>./deploy:</em> Collection of application deployment resources<br>
+<em>./src:</em> MuShop individual service code, Dockerfile, etc</p></li>
+<li><p>Check <strong>kubectl</strong> context</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config current-context</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">cluster-c4daylfgvrg
+</code></pre></li>
+<li><p>Create a namespace for MuShop App (microservices will reside on this namespace)</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">namespace/mushop created
+</code></pre></li>
+<li><p>Set the default <strong>kubectl</strong> namespace to skip adding <strong>--namespace <em>mushop</em></strong> to every command.  You can replace <em>mushop</em> with <em>your name</em>.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl config set-context --current --namespace=mushop</span>
+</code></pre></li>
+</ol></section>
+
+<section><div name="STEP2:ClusterSetupfortheAppwithHelm" data-unique="STEP2:ClusterSetupfortheAppwithHelm"></div><h2 id="step2clustersetupfortheappwithhelm" class="minus" tabindex="0"><strong>STEP 2</strong>: Cluster Setup for the App with Helm</h2><p style="">MuShop provides an umbrella helm chart called setup, which includes several recommended installations on the cluster. These installations represent common 3rd party services, which integrate with Oracle Cloud Infrastructure or enable certain application features.</p><table style="">
+<thead>
+<tr>
+<th>Chart</th>
+<th>Purpose</th>
+<th>Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/helm/charts/blob/master/stable/prometheus/README.md" target="_blank">Prometheus</a></td>
+<td>Service metrics aggregation</td>
+<td>prometheus.enabled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/helm/charts/blob/master/stable/grafana/README.md" target="_blank">Grafana</a></td>
+<td>Infrastructure/service visualization dashboards</td>
+<td>grafana.enabled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/helm/charts/blob/master/stable/metrics-server/README.md" target="_blank">Metrics Server</a></td>
+<td>Support for Horizontal Pod Autoscaling</td>
+<td>metrics-server.enabled</td>
+</tr>
+<tr>
+<td><a href="https://kubernetes.github.io/ingress-nginx/" target="_blank">Ingress Nginx</a></td>
+<td>Ingress controller and public Load Balancer</td>
+<td>ingress-nginx.enabled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/kubernetes-sigs/service-catalog/blob/master/charts/catalog/README.md" target="_blank">Service Catalog</a></td>
+<td>Service Catalog chart utilized by Oracle Service Broker</td>
+<td>catalog.enabled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/jetstack/cert-manager/blob/master/README.md" target="_blank">Cert Manager</a></td>
+<td>x509 certificate management for Kubernetes</td>
+<td>cert-manager.enabled</td>
+</tr>
+</tbody>
+</table><ol style="">
+<li><p>Create a namespace for MuShop utilities</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl create namespace mushop-utilities</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">namespace/mushop-utilities created
+</code></pre></li>
+<li><p>Install cluster dependencies using helm:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm dependency update deploy/complete/helm-chart/setup</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "stable" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Saving 7 charts
+Downloading prometheus from repo https://kubernetes-charts.storage.googleapis.com
+Downloading grafana from repo https://kubernetes-charts.storage.googleapis.com
+Downloading metrics-server from repo https://kubernetes-charts.storage.googleapis.com
+Downloading ingress-nginx from repo https://kubernetes.github.io/ingress-nginx
+Downloading catalog from repo https://svc-catalog-charts.storage.googleapis.com
+Downloading cert-manager from repo https://charts.jetstack.io
+Downloading jenkins from repo https://kubernetes-charts.storage.googleapis.com
+Deleting outdated charts
+</code></pre></li>
+<li><p>Install setup helm chart:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm install mushop-utils deploy/complete/helm-chart/setup --namespace mushop-utilities</span>
+</code></pre></li>
+</ol><p style=""><em>Note:</em> When you install the mushop-utils chart release, Kubernetes will create an OCI LoadBalancer to the be used by the ingress kubernetes.</p></section>
+
+
+
+
+<section><div name="STEP3:GetIngressIPAddress" data-unique="STEP3:GetIngressIPAddress"></div><h2 id="step3getingressipaddress" class="minus" tabindex="0"><strong>STEP 3</strong>: Get Ingress IP Address</h2><p style="">Part of the cluster setup includes the installation of an nginx ingress controller. This resource exposes an OCI load balancer, with a public ip address mapped to the OKE cluster.</p><p style="">By default, the mushop helm chart creates an Ingress resource, routing ALL traffic on that ip address to the svc/edge component.</p><ol style="">
+<li><p>Locate the EXTERNAL-IP assigned to the ingress controller:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">NAME                                    TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                      AGE
+mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.xxx.xxx   80:30195/TCP,443:31059/TCP   1m
+</code></pre></li>
+<li><p>Explore the cluster services deployments:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get deployments --namespace mushop-utilities</span>
+</code></pre></li>
+</ol></section>
+
+
+
+<section><div name="STEP4:DeploytheeCommerceAppwithHelm" data-unique="STEP4:DeploytheeCommerceAppwithHelm"></div><h2 id="step4deploytheecommerceappwithhelm" class="minus" tabindex="0"><strong>STEP 4</strong>: Deploy the eCommerce App with Helm</h2><p style="">Remembering that helm provides a way of packaging and deploying configurable charts, next we will deploy the application in "mock mode" where cloud services are mocked, yet the application is fully functional</p><ol style="">
+<li><p>Deploy the application in "mock mode" where cloud services are mocked, yet the application is fully functional</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm install mushop deploy/complete/helm-chart/mushop --set global.mock.service="all"</span>
+</code></pre></li>
+<li><p>Please be patient. It may take a few moments to download all the application images.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get pods --watch</span>
+</code></pre>
+<p><em>Note:</em> To leave the <em>watch</em> press <code>CTRL-C</code> anytime. If do not want to keep watching and just see the current list of PODS, just use <code>kubectl get pods</code></p></li>
+<li><p>After inspecting the resources created with helm install, launch the application in your browser using the <strong>EXTERNAL-IP</strong> from the nginx ingress.</p></li>
+<li><p>Find the EXTERNAL-IP assigned to the ingress controller.  Open the IP address in your browser.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
+</code></pre></li>
+<li><p>Open to the MuShop Storefront by using your browser connecting to http://&lt; EXTERNAL-IP &gt;</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-storefront.png" alt="MuShop Storefront"></figure></p></li>
+</ol></section>
+
+
+<section><div name="STEP5:Explorethedeployedapp" data-unique="STEP5:Explorethedeployedapp"></div><h2 id="step5explorethedeployedapp" class="minus" tabindex="0"><strong>STEP 5</strong>: Explore the deployed app</h2><p style="">When you create a Deployment, you'll need to specify the container image for your application and the number of replicas that you want to run.</p><p style="">Kubernetes created a Pod to host your application instance. A Pod is a Kubernetes abstraction that represents a group of one or more application containers (such as Docker), and some shared resources for those containers. Those resources include:</p><ul style="">
+<li>Shared storage, as Volumes</li>
+<li>Networking, as a unique cluster IP address</li>
+<li>Information about how to run each container, such as the container image version or specific ports to use</li>
+</ul><p style="">The most common operations can be done with the following kubectl commands:</p><ul style="">
+<li><strong>kubectl get</strong> - list resources</li>
+<li><strong>kubectl describe</strong> - show detailed information about a resource</li>
+<li><strong>kubectl logs</strong> - print the logs from a container in a pod</li>
+<li><strong>kubectl exec</strong> - execute a command on a container in a pod</li>
+</ul><p style="">You can use these commands to see when applications were deployed, what their current statuses are, where they are running and what their configurations are.</p><ol style="">
+<li><p>Check the microservices deployments for MuShop</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get deployments</span>
+</code></pre>
+<p><em>Note:</em> You should use <code>kubectl get deployments --namespace mushop</code> if you didn't set <em>mushop</em> as default namespace</p></li>
+<li><p>Check the pods deployed</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get pods</span>
+</code></pre></li>
+<li><p>Get the last created pod to inspect</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'|awk '{print $1}'|tail -n 1) &amp;&amp; \
+echo Using Pod: $POD_NAME</span>
+</code></pre></li>
+<li><p>View what containers are inside that Pod and what images are used to build those containers</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl describe pod $POD_NAME</span>
+</code></pre></li>
+<li><p>Anything that the application would normally send to <code>STDOUT</code> becomes logs for the container within the Pod. We can retrieve these logs using the <code>kubectl logs</code> command:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl logs $POD_NAME</span>
+</code></pre></li>
+<li><p>Execute commands directly on the container once the Pod is up and running.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl exec $POD_NAME env</span>
+</code></pre></li>
+<li><p>List the content of the Pod’s container work folder:</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl exec -ti $POD_NAME ls</span>
+</code></pre>
+<p><em>Note:</em> You can also start a <code>bash</code> session on the Pod's container, just change the <code>ls</code> to <code>bash</code>. Remember that you need to type <code>exit</code> to exit the bash session.</p></li>
+</ol></section>
+
+
+
+
+
+
+
+<section><div name="STEP6:UndertheHood" data-unique="STEP6:UndertheHood"></div><h2 id="step6underthehood" class="minus" tabindex="0"><strong>STEP 6</strong>: Under the Hood</h2><ol style="">
+<li><p>To get a better look at all the installed Kubernetes manifests by using the template command.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">
+mkdir ./out
+</span><span class="copy-code">
+</span></code></pre>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">
+helm template mushop deploy/complete/helm-chart/mushop --set global.mock.service="all" --output-dir ./out
+</span><span class="copy-code">
+</span></code></pre></li>
+<li><p>Explore the files, and see each output.</p></li>
+</ol><p style="">You may now <a href="#next">proceed to the next lab</a>.</p></section>
+
+
+<section><div name="LearnMore" data-unique="LearnMore"></div><h2 id="learnmore" class="minus" tabindex="0">Learn More</h2><ul style="">
+<li><a href="https://github.com/oracle-quickstart/oci-cloudnative" target="_blank">MuShop Github Repo</a></li>
+<li><a href="https://oracle-quickstart.github.io/oci-cloudnative/cloud/" target="_blank">MuShop Deployment documentation</a></li>
+<li><a href="https://github.com/oracle-quickstart/oci-cloudnative/tree/master/deploy/complete/terraform" target="_blank">Terraform Deploymment scripts</a></li>
+<li>Full Solution deployment with one click - launches in OCI Resource Manager directly <a href="https://console.us-ashburn-1.oraclecloud.com/resourcemanager/stacks/create?region=home&amp;zipUrl=https://github.com/oracle-quickstart/oci-cloudnative/releases/latest/download/mushop-stack-latest.zip" target="_blank"><figure><img src="https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg" alt="Deploy to Oracle Cloud"></figure></a>  </li>
+</ul></section>
+
 <section><div name="Acknowledgements" data-unique="Acknowledgements"></div><h2 id="acknowledgements" class="minus" tabindex="0">Acknowledgements</h2><ul style="">
-<li><strong>Author</strong> - Satyajeet Joshi</li>
-<li><strong>Contributors</strong> -  Kamryn Vinson, Adao Junior</li>
+<li><strong>Author</strong> - Adao Junior</li>
+<li><strong>Contributors</strong> -  Kay Malcolm (DB Product Management), Adao Junior</li>
 <li><strong>Last Updated By/Date</strong> - Adao Junior, October 2020</li>
 </ul></section>
 
-<section><div name="NeedHelp?" data-unique="NeedHelp?"></div><h2 id="needhelp" class="minus" tabindex="0">Need Help?</h2><p style="">Please submit feedback or ask for help using our <a href="https://community.oracle.com/tech/developers/categories/livelabsdiscussions" target="_blank">LiveLabs Support Forum</a>. Please click the <strong>Log In</strong> button and login using your Oracle Account. Click the <strong>Ask A Question</strong> button to the left to start a <em>New Discussion</em> or <em>Ask a Question</em>.  Please include your workshop name and lab name.  You can also include screenshots and attach files.  Engage directly with the author of the workshop.</p><p style="">If you do not have an Oracle Account, click <a href="https://profile.oracle.com/myprofile/account/create-account.jspx" target="_blank">here</a> to create one.   Please include the workshop name   and lab in your request.</p></section>
+<section><div name="NeedHelp?" data-unique="NeedHelp?"></div><h2 id="needhelp" class="minus" tabindex="0">Need Help?</h2><p style="">Please submit feedback or ask for help using our <a href="https://community.oracle.com/tech/developers/categories/livelabsdiscussions" target="_blank">LiveLabs Support Forum</a>. Please click the <strong>Log In</strong> button and login using your Oracle Account. Click the <strong>Ask A Question</strong> button to the left to start a <em>New Discussion</em> or <em>Ask a Question</em>.  Please include your workshop name and lab name.  You can also include screenshots and attach files.  Engage directly with the author of the workshop.</p><p style="">If you do not have an Oracle Account, click <a href="https://profile.oracle.com/myprofile/account/create-account.jspx" target="_blank">here</a> to create one.</p></section>
 
 </article></main>
 
