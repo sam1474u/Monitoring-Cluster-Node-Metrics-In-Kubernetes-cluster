@@ -379,21 +379,149 @@ helm template mushop deploy/complete/helm-chart/mushop --set global.mock.service
 <li><p>Explore the files, and see each output.</p></li>
 </ol><p style="">You may now <a href="#next">proceed to the next lab</a>.</p></section>
 
+#LAB3
 
-<section><div name="LearnMore" data-unique="LearnMore"></div><h2 id="learnmore" class="minus" tabindex="0">Learn More</h2><ul style="">
-<li><a href="https://github.com/oracle-quickstart/oci-cloudnative" target="_blank">MuShop Github Repo</a></li>
-<li><a href="https://oracle-quickstart.github.io/oci-cloudnative/cloud/" target="_blank">MuShop Deployment documentation</a></li>
-<li><a href="https://github.com/oracle-quickstart/oci-cloudnative/tree/master/deploy/complete/terraform" target="_blank">Terraform Deploymment scripts</a></li>
-<li>Full Solution deployment with one click - launches in OCI Resource Manager directly <a href="https://console.us-ashburn-1.oraclecloud.com/resourcemanager/stacks/create?region=home&amp;zipUrl=https://github.com/oracle-quickstart/oci-cloudnative/releases/latest/download/mushop-stack-latest.zip" target="_blank"><figure><img src="https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg" alt="Deploy to Oracle Cloud"></figure></a>  </li>
+<div id="contentBox" class="open" style="min-height: 176px;">
+            <main class="hol-Content" id="module-content"><article><h1 id="monitoringthedeployment">Monitoring the deployment</h1>
+<section><div name="Introduction" data-unique="Introduction"></div><h2 id="introduction">Introduction</h2><p>Observability helps to understand and explain the state of your systems using a combination of logs, metrics and traces. It helps bringing better visibility into systems.</p><p>Estimated Lab Time: 10 minutes</p><h3 id="objectives">Objectives</h3><p>In this lab, you will:</p><ul>
+<li>Check OKE Cluster, Node Pool and Worker Nodes Metrics with OCI Monitoring Console</li>
+<li>Use Grafana Dashboards</li>
+</ul><h3 id="prerequisites">Prerequisites</h3><ul>
+<li>Completed the <strong>Deploy the MuShop App</strong> lab and have the app running</li>
 </ul></section>
 
-<section><div name="Acknowledgements" data-unique="Acknowledgements"></div><h2 id="acknowledgements" class="minus" tabindex="0">Acknowledgements</h2><ul style="">
-<li><strong>Author</strong> - Adao Junior</li>
-<li><strong>Contributors</strong> -  Kay Malcolm (DB Product Management), Adao Junior</li>
-<li><strong>Last Updated By/Date</strong> - Adao Junior, October 2020</li>
-</ul></section>
 
-<section><div name="NeedHelp?" data-unique="NeedHelp?"></div><h2 id="needhelp" class="minus" tabindex="0">Need Help?</h2><p style="">Please submit feedback or ask for help using our <a href="https://community.oracle.com/tech/developers/categories/livelabsdiscussions" target="_blank">LiveLabs Support Forum</a>. Please click the <strong>Log In</strong> button and login using your Oracle Account. Click the <strong>Ask A Question</strong> button to the left to start a <em>New Discussion</em> or <em>Ask a Question</em>.  Please include your workshop name and lab name.  You can also include screenshots and attach files.  Engage directly with the author of the workshop.</p><p style="">If you do not have an Oracle Account, click <a href="https://profile.oracle.com/myprofile/account/create-account.jspx" target="_blank">here</a> to create one.</p></section>
+
+
+
+
+
+<section><div name="STEP1:ReviewOKEMetrics" data-unique="STEP1:ReviewOKEMetrics"></div><button id="btn_toggle" class="hol-ToggleRegions minus">Collapse All Steps</button><h2 id="step1reviewokemetrics" class="minus" tabindex="0"><strong>STEP 1</strong>: Review OKE Metrics</h2><ol style="">
+<li><p><em>OKE Cluster Metrics:</em> Navigate to <strong>Developer Services -&gt; Kubernetes Clusters -&gt; <your_cluster_name></your_cluster_name></strong></p></li>
+<li><p>Under <strong>Resources -&gt; Metrics</strong> observe the following metrics</p>
+<ul>
+<li>Unschedulable pods, which can be used to trigger node pool scale operations when there are insufficient resources on which to schedule pods.</li>
+<li>API Server requests per second, which is helpful to understand any underlying performance issues seen in the Kubernetes API server.</li></ul></li>
+<li><p>These metrics can also be viewed from OCI Monitoring console under “oci_oke” namespace. Additionally, alarms can be created using industry standard statistics, trigger operators, and time intervals.</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/cluster-metric.png" alt="OKE Cluster Metric"></figure></p></li>
+<li><p><em>OKE Node Pool Metrics:</em> Navigate to <strong>Developer Services -&gt; Kubernetes Clusters -&gt; <your_cluster_name> -&gt; Node Pools -&gt; <your_node_pool_name></your_node_pool_name></your_cluster_name></strong></p>
+<p>Observe the following node pool metrics:</p>
+<ul>
+<li>Node State (If your worker nodes are in Active state as indicated by OCI Compute Service)</li>
+<li>Node condition (If your worker node are in Ready state as indicated by OKE API server)</li></ul>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/node-pool-metric.png" alt="OKE Node Pool Metric"></figure></p></li>
+<li><p><em>OKE Worker Node Metrics:</em> Navigate to <strong>Developer Services -&gt; Kubernetes Clusters -&gt; <your_cluster_name> -&gt; Node Pools -&gt; <your_node_pool_name> -&gt; Nodes -&gt; <your_node_name></your_node_name></your_node_pool_name></your_cluster_name></strong></p>
+<p>Observe the following node metrics:</p>
+<ul>
+<li>Activity level from CPU. Expressed as a percentage of total time (busy and idle) versus idle time. A typical alarm threshold is 90 percent.</li>
+<li>Space currently in use. Measured by pages. Expressed as a percentage of used pages versus unused pages. A typical alarm threshold is 85 percent.</li>
+<li>Activity level from I/O reads and writes. Expressed as reads/writes per second.</li>
+<li>Read/Write throughput. Expressed as bytes read/Write per second.</li>
+<li>Network receipt/transmit throughput. Expressed as bytes received/transmit per second.</li></ul>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/node-metric.png" alt="OKE Worker Node Metric"></figure></p></li>
+</ol></section>
+
+<section><div name="STEP2:GrafanaMonitoring" data-unique="STEP2:GrafanaMonitoring"></div><h2 id="step2grafanamonitoring" class="minus" tabindex="0"><strong>STEP 2</strong>: Grafana Monitoring</h2><p style="">Good news! You already installed Prometheus/Grafana as part of the umbrella chart during setup. Now let's revisit the charts and connect to some Grafana dashboards!</p><ol style="">
+<li><p>Go back to your Cloud Shel by clicking on the Cloud Shell icon in the Console header. Note that the OCI CLI running in the Cloud Shell will execute commands against the region selected in the Console's Region selection menu when the Cloud Shell was started.</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/cloudshell-1.png" alt="CloudShell"></figure></p></li>
+<li><p>List helm releases to check if the <strong>mushop-utils</strong>(Setup) chart is installed</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm list --all-namespaces</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">NAME                    NAMESPACE               REVISION        UPDATED                                 STATUS          CHART                           APP VERSION
+mushop                  mushop                  1               2020-01-31 21:14:48.511917 -0600 CST    deployed        mushop-0.1.0                    1.0
+mushop-utils            mushop-utilities        1               2020-01-31 20:32:05.864769 -0600 CST    deployed        mushop-setup-0.0.1              1.0
+</code></pre></li>
+<li><p>Get the Grafana outputs from the <strong>mushop-utils</strong> (setup chart) installation</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">helm status mushop-utils --namespace mushop-utilities</span>
+</code></pre></li>
+<li><p>Find the EXTERNAL-IP assigned to the ingress controller.</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
+</code></pre></li>
+<li><p>Get the auto-generated Grafana <strong>admin</strong> password</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get secret -n mushop-utilities mushop-utils-grafana \
+-o jsonpath="{.data.admin-password}" | base64 --decode ; echo</span>
+</code></pre></li>
+<li><p>Open to the Grafana dashboard using your browser connecting to http://&lt; EXTERNAL-IP &gt;/grafana</p></li>
+<li><p>Connect to the dashboard with <strong>admin</strong>/<strong>&lt; password &gt;</strong></p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-login.png" alt="Grafana Login"></figure></p></li>
+<li><p>On the Grafana main screen, click on Home to select a Dashboard</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-select-dashboards.png" alt="Grafana Select Dashboards"></figure></p></li>
+<li><p>Select the <code>Kubernetes Cluster (Prometheus)</code> Dashboard</p>
+<p><em>Note:</em> MuShop pre-loads dashboards as part of the mushop-utils chart</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-loaded-dashboards.png" alt="Grafana Select Dashboards"></figure></p></li>
+<li><p>Visualize and try the options</p>
+<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-cluster-dashboard.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
+<li><p>You can try other dashboards by clicking on the Dashboard name and selecting the desired dashboard</p>
+<p><em>Note:</em> You can install other dashboards from the <a href="https://grafana.com/grafana/dashboards?dataSource=prometheus" target="_blank">community</a> or create your own</p></li>
+</ol></section>
+
+
+<section><div name="STEP3:Autoscaling" data-unique="STEP3:Autoscaling"></div><h2 id="step3autoscaling" class="minus" tabindex="0"><strong>STEP 3</strong>: Autoscaling</h2><p style="">Scaling out a Deployment will ensure new Pods are created and scheduled to Nodes with available resources. Scaling will increase the number of Pods to the new desired state. Kubernetes also supports autoscaling of Pods, but it is outside of the scope of this tutorial. Scaling to zero is also possible, and it will terminate all Pods of the specified Deployment.</p><p style="">This step showcases the <a href="https://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/" target="_blank">Horizontal Pod Autoscaling</a> configurations deployed with the MuShop application.</p><ol style="">
+<li><p>Review the current scaling targets and number of replicas for the MuShop deployments</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get hpa</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">NAME                REFERENCE                      TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+mushop-api          Deployment/mushop-api          1%/70%    1         10        1          14m
+mushop-assets       Deployment/mushop-assets       1%/70%    1         10        1          14m
+mushop-catalogue    Deployment/mushop-catalogue    5%/70%    1         10        1          14m
+mushop-edge         Deployment/mushop-edge         2%/70%    1         10        1          14m
+mushop-events       Deployment/mushop-events       1%/70%    1         10        1          14m
+mushop-storefront   Deployment/mushop-storefront   1%/70%    1         10        1          14m
+mushop-user         Deployment/mushop-user         1%/70%    1         10        1          14m
+</code></pre>
+<p>Depending on the shape of your nodes, the targets will as low as <code>1%</code> and the number of replicas to <code>1</code></p></li>
+<li><p>Review the ReplicaSet created by the Deployments</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get rs</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">NAME                            DESIRED   CURRENT   READY   AGE
+mushop-api-9dd66b45b            1         1         1       15m
+mushop-assets-7c87dc946f        1         1         1       15m
+mushop-carts-6c67469876         1         1         1       15m
+mushop-catalogue-6cd5f9bddd     1         1         1       15m
+mushop-edge-7bcbc7f576          1         1         1       15m
+mushop-events-56d6dfff9f        1         1         1       15m
+mushop-fulfillment-7cbbf7cfd4   1         1         1       15m
+mushop-nats-7679846f9f          1         1         1       15m
+mushop-orders-6fd9447846        1         1         1       15m
+mushop-payment-86f4d7897f       1         1         1       15m
+mushop-session-6fdc488cb9       1         1         1       15m
+mushop-storefront-587d5968d4    1         1         1       15m
+mushop-user-85579bdf64          1         1         1       15m
+</code></pre></li>
+<li><p>Deploy the load simulation pods</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl create -f src/load/load-dep.yaml</span>
+</code></pre></li>
+<li><p>Wait few minutes and check the HPA metrics again</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get hpa</span>
+</code></pre>
+<p>Sample response:</p>
+<pre><code class="shell language-shell">NAME                REFERENCE                      TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+mushop-api          Deployment/mushop-api          47%/70%   1         10        5          18m2s
+mushop-assets       Deployment/mushop-assets       1%/70%    1         10        1          18m2s
+mushop-catalogue    Deployment/mushop-catalogue    30%/70%   1         10        3          18m2s
+mushop-edge         Deployment/mushop-edge         57%/70%   1         10        6          18m2s
+mushop-events       Deployment/mushop-events       18%/70%   1         10        1          18m2s
+mushop-storefront   Deployment/mushop-storefront   25%/70%   1         10        2          18m2s
+mushop-user         Deployment/mushop-user         20%/70%   1         10        1          18m2s
+</code></pre>
+<p>Verify that targets increased and the number of replicas have started to increase</p>
+<p><em>Note:</em> Depending on the shapes of the Cluster worker nodes, the usage can have variations to lower or higher numbers.</p></li>
+<li><p>Return to the Grafana console and review the dashboards</p>
+<p>You will notice an increase of CPU and Memory usage, and variations on the number of replicas</p></li>
+<li><p>Remove the load simulator</p>
+<pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl delete -f src/load/load-dep.yaml</span>
+</code></pre>
+<p>Notice that after few minutes the preasure will be reduced and targets will be reduced to the lowest level. At this point the Kubernetes will start to <strong>scale down</strong> and will bring the number of replicas back to minimum.</p></li>
+
+
+</article></main>
+        </div>
+
+</article></main>
+        </div>
 
 </article></main>
 
