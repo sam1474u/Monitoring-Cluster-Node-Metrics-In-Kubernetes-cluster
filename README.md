@@ -452,7 +452,7 @@ mushop-utils            mushop-utilities        1               2020-01-31 20:32
 <p><em>Note:</em> MuShop pre-loads dashboards as part of the mushop-utils chart</p>
 <p><figure><img src="https://user-images.githubusercontent.com/42166489/108210737-f0224700-7151-11eb-8dd9-67bf303c8fc4.png" alt="Grafana Select Dashboards"></figure></p></li>
 <li><p>Visualize and try the options</p>
-<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/observability/images/grafana-cluster-dashboard.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
+<p><figure><img src="(https://user-images.githubusercontent.com/42166489/108211201-6de65280-7152-11eb-910d-7ca2c0bc1e8f.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
 <li><p>You can try other dashboards by clicking on the Dashboard name and selecting the desired dashboard</p>
 <p><em>Note:</em> You can install other dashboards from the <a href="https://grafana.com/grafana/dashboards?dataSource=prometheus" target="_blank">community</a> or create your own</p></li>
 </ol></section>
@@ -462,16 +462,8 @@ mushop-utils            mushop-utilities        1               2020-01-31 20:32
 <li><p>Review the current scaling targets and number of replicas for the MuShop deployments</p>
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get hpa</span>
 </code></pre>
-<p>Sample response:</p>
-<pre><code class="shell language-shell">NAME                REFERENCE                      TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-mushop-api          Deployment/mushop-api          1%/70%    1         10        1          14m
-mushop-assets       Deployment/mushop-assets       1%/70%    1         10        1          14m
-mushop-catalogue    Deployment/mushop-catalogue    5%/70%    1         10        1          14m
-mushop-edge         Deployment/mushop-edge         2%/70%    1         10        1          14m
-mushop-events       Deployment/mushop-events       1%/70%    1         10        1          14m
-mushop-storefront   Deployment/mushop-storefront   1%/70%    1         10        1          14m
-mushop-user         Deployment/mushop-user         1%/70%    1         10        1          14m
-</code></pre>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108211201-6de65280-7152-11eb-910d-7ca2c0bc1e8f.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
+
 <p>Depending on the shape of your nodes, the targets will as low as <code>1%</code> and the number of replicas to <code>1</code></p></li>
 <li><p>Review the ReplicaSet created by the Deployments</p>
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get rs</span>
@@ -498,17 +490,11 @@ mushop-user-85579bdf64          1         1         1       15m
 <li><p>Wait few minutes and check the HPA metrics again</p>
 <pre><button class="copy-button" title="Copy text to clipboard">Copy</button><code class="shell language-shell"><span class="copy-code">kubectl get hpa</span>
 </code></pre>
-<p>Sample response:</p>
-<pre><code class="shell language-shell">NAME                REFERENCE                      TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-mushop-api          Deployment/mushop-api          47%/70%   1         10        5          18m2s
-mushop-assets       Deployment/mushop-assets       1%/70%    1         10        1          18m2s
-mushop-catalogue    Deployment/mushop-catalogue    30%/70%   1         10        3          18m2s
-mushop-edge         Deployment/mushop-edge         57%/70%   1         10        6          18m2s
-mushop-events       Deployment/mushop-events       18%/70%   1         10        1          18m2s
-mushop-storefront   Deployment/mushop-storefront   25%/70%   1         10        2          18m2s
-mushop-user         Deployment/mushop-user         20%/70%   1         10        1          18m2s
-</code></pre>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108211334-92422f00-7152-11eb-8167-40cc66040edf.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
+
 <p>Verify that targets increased and the number of replicas have started to increase</p>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108211343-94a48900-7152-11eb-8534-adf3beccd635.png" alt="Grafana Kubernetes Cluster Dashboard"></figure></p></li>
+
 <p><em>Note:</em> Depending on the shapes of the Cluster worker nodes, the usage can have variations to lower or higher numbers.</p></li>
 <li><p>Return to the Grafana console and review the dashboards</p>
 <p>You will notice an increase of CPU and Memory usage, and variations on the number of replicas</p></li>
