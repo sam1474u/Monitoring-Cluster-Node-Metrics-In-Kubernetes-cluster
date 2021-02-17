@@ -293,9 +293,9 @@ Deleting outdated charts
 <pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get svc mushop-utils-ingress-nginx-controller --namespace mushop-utilities</span>
 </code></pre>
 <p>Sample response:</p>
-<pre><code class="shell language-shell">NAME                                    TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                      AGE
-mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.xxx.xxx   80:30195/TCP,443:31059/TCP   1m
-</code></pre></li>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108209468-5a39ec80-7150-11eb-84a3-dc3c8d9aad07.png" ></figure></p>
+
+</li>
 <li><p>Explore the cluster services deployments:</p>
 <pre><button class="copy-button" title="Copy text to clipboard"/button><code class="shell language-shell"><span class="copy-code">kubectl get deployments --namespace mushop-utilities</span>
 </code></pre></li>
@@ -317,9 +317,8 @@ mushop-utils-ingress-nginx-controller   LoadBalancer   10.96.150.230   129.xxx.x
 </code></pre></li>
 <li><p>Open to the MuShop Storefront by using your browser connecting to http://&lt; EXTERNAL-IP &gt;</p>
 
-<p><figure><img src="https://oracle.github.io/learning-library/developer-library/mushop/deploy/images/mushop-storefront.png" alt="MuShop Storefront"></figure></p>
+<p><figure><img src="https://user-images.githubusercontent.com/42166489/108209550-7178da00-7150-11eb-8d0e-f1bfa842f5d5.png" alt="MuShop Storefront"></figure></p>
 
-<p><figure><img src="https://user-images.githubusercontent.com/42166489/108181095-8132f700-712d-11eb-9246-6a29f56ccd69.png" alt="MuShop Storefront"></figure></p>
 
 </li>
 </ol></section>
